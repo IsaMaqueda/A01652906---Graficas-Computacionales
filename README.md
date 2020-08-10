@@ -1,1 +1,3 @@
-# A01652906---Graficas-Computacionales
+# Graficas-Computacionales
+# Isabel Maqueda Rolon 
+  # A01652906
