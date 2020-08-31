@@ -130,9 +130,6 @@ function main()
     let barraDer = new barra(570,120,20,60,'o','l');
     let bola = new pelota(canvas.width/2, canvas.height/2, 10);
 
-    //barraIzq.draw(ctx);
-    //barraDer.draw(ctx);
-
     let barras = [];    
     barras.push(barraIzq, barraDer, bola);    
 
