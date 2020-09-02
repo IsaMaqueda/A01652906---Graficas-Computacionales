@@ -1,141 +1,154 @@
-/*Isabel Maqueda Rolon
-A01652906
-17/08/20
-*/
 
 let keysDown = {
-    'q':false,
-    'a':false,
-    'o':false,
-    'l':false,
+    "w":false,
+    "s":false,
+    "o":false,
+    "l":false
 };
 
-class barra
-{
-    //contructor of bar
-    constructor(x,y,width, height, keyup, keydown, speed)
-    {
+//Players class
+class barra{
+
+    constructor(x, y, width, height, keyUp, keyDown, speed=4){
         this.x = x;
-        this.y = y; 
+        this.y = y;
         this.width = width;
         this.height = height;
         this.speed = speed;
-        this.keyup = keyup;
-        this.keydown = keydown;
-
+        this.keyUp = keyUp;
+        this.keyDown = keyDown;
     }
 
-    //how the bar moves up
-    moveUp() {
-        this.y -= this.speed;
+    moveUp(topBorder){
+        if(this.y>topBorder)
+            this.y -= this.speed;
     }
 
-    //controls the movement of the bar down
-    moveDown(){
-        this.y += this.speed;
+    moveDown(downBorder){
+        if((this.y+this.height)<downBorder)
+            this.y += this.speed;
     }
 
-    //draws the bar 
-    draw(ctx)
-    {
-        ctx.fillStyle = 'white';
-        ctx.fillRect(this.x,this.y, this.width,this.height);
+    draw(context){
+        context.fillStyle = 'white';
+        context.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    // update on each movement
-    update()
-    {
-        if(keysDown[this.keyup])
-            this.moveUp();
-        
-        if(keysDown[this.keydown])
-            this.moveDown();
+    update(canvas){
+        if(keysDown[this.keyUp])
+            this.moveUp(0)
+        if(keysDown[this.keyDown])
+            this.moveDown(canvas.height)
     }
 
 }
 
-// controller of the ball
-class pelota
-{
-    //constructor
-    constructor(x,y,radio, speed=1)
-    {
+//Ball class
+class pelota{
+
+    constructor(x, y, radio, speed=1){
         this.x = x;
-        this.y = y; 
+        this.y = y;
         this.radio = radio;
         this.speed = speed;
 
         this.up = true;
         this.right = true;
-
     }
 
-    //draws the ball
-    draw(ctx)
-    {
-        ctx.fillStyle = 'white';
-        ctx.beginPath();
-        ctx.arc(this.x,this.y,this.radio, 0 , Math.PI * 2);
-        ctx.closePath();
-        ctx.fill();
+    draw(context){
+        context.fillStyle = 'white';
+        context.beginPath();
+        context.arc(this.x, this.y, this.radio, 0, Math.PI * 2);
+        context.closePath();
+        context.fill();
     }
-    //controls the movement of the ball
-    update(up, down, left, right)
-    {
+
+    update(up, down, left, right, barras){
+
         if(this.up)
             this.y -= this.speed;
         else
             this.y += this.speed;
-
+        
         if(this.right)
             this.x += this.speed;
         else
             this.x -= this.speed;
-
-        if((this.y - this.radio) <= up)
+        
+        //If the ball hits the top border
+        if( (this.y-this.radio) <= up)
             this.up = false;
-
-        if((this.y + this.radio) >= down)
+        //If the ball hits the bottom border
+        if( (this.y + this.radio) >= down)
             this.up = true;
+        
+        //If the ball hits the right border
+        if( (this.x + this.radio) >= right)
+            this.right = false;   
+        //If the ball hits the left border
+        if( (this.x - this.radio) <= left)
+            this.right = true;
+        
+        //If the ball is on the x position of the left bar, lower than the top border of the bar and higher than the bottom border of the bar, it means the ball has collided with the bar
+        if( (this.x - this.radio) <= (barras[0].x + (barras[0].width)) && ((this.y + this.radio) >= barras[0].y) && ((this.y + this.radio) <= (barras[0].y + barras[0].height)))
+            this.right=true;
 
-        if((this.x + this.radio) >= right)
-            this.right = false;
-
-        if((this.x - this.radio) <= left)
-            this.right = true; 
+        //Same conditional as the previous one, but for the right bar
+        if( ((this.x + this.radio) >= barras[1].x) && ((this.y + this.radio) >= barras[1].y ) && ((this.y + this.radio) <= (barras[1].y + barras[1].height)) )
+            this.right=false;
     }
 }
 
-//the animation frame of the game, is the update that calls the other updates 
-function update(canvas, ctx, barras, bola)
-{    
-    requestAnimationFrame(()=>update(canvas, ctx, barras, bola));    
-    ctx.clearRect(0,0, canvas.width, canvas.height);
+//General update function
+function update(canvas, context, barras, bola){
+    
+    requestAnimationFrame(()=>update(canvas, context, barras, bola));
 
-    barras.forEach(bola =>{        
-        bola.draw(ctx);        
-        bola.update();    
-    });    
-    bola.update(0, canvas.height, 0, canvas.width);
+    //The canvas is cleared
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
+    //The players are drawn
+    barras.forEach(barra =>{
+        barra.update(canvas);
+        barra.draw(context);
+    })
+
+    //The ball is drawn
+    bola.update(0, canvas.height, 0, canvas.width, barras);
+    bola.draw(context);
 }
 
-//main function 
-function main()
-{
-    const canvas = document.getElementById("pongCanvas");
-    const ctx = canvas.getContext("2d");
+function keyEvents(){
 
-    let barraIzq = new barra(10, 120,20, 60,'q','a');
-    let barraDer = new barra(570,120,20,60,'o','l');
+    document.addEventListener("keyup", event=>{
+        keysDown[event.key] = false;
+    });
+       
+    document.addEventListener("keydown", event=>{
+        keysDown[event.key] = true;
+    }); 
+} 
+
+//Main function that gets called from the html
+function main(){
+
+    const canvas = document.getElementById("pongCanvas");
+    canvas.width = 600;
+    canvas.height = 300;
+
+    const context = canvas.getContext("2d");
+
+    let barraIzq = new barra(10, 120, 20, 60, "w", "s");
+    let barraDer = new barra(570, 120, 20, 60, "o", "l");
+
     let bola = new pelota(canvas.width/2, canvas.height/2, 10);
 
-    let barras = [];    
-    barras.push(barraIzq, barraDer, bola);    
+    let barras = [];
 
-    document.addEventListener("keydown", event => keysDown[event.key] = true);
-    document.addEventListener("keyup" , event => keysDown[event.key] = false);
+    barras.push(barraIzq, barraDer);
+    
+    keyEvents();
 
-    update(canvas, ctx, barras, bola);
-
+    update(canvas, context, barras, bola);
 }
