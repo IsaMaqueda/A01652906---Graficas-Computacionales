@@ -125,12 +125,12 @@ function createPiramid(gl,translation, rotationAxis){
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
     let faceColors = [
-        [1.0,  0.0,  0.0,  1.0],    //  bottom: red
-        [0.0, 1.0,  0.0,  1.0],    //  face AB: green
-        [0.0,  0.0,  1.0,  1.0],    // face BC: blue
-        [1.0,  1.0,  0.0,  1.0],    // face CD: yellow
-        [1.0,  0.0,  1.0,  1.0],    // face DE: purple
-        [0.0,  1.0,  1.0,  1.0],    // face EA: cyan
+        [0.2,  0.7,  0.6,  1.0],    //  bottom: green
+        [0.7, 0.8,  1,  1.0],    //  face AB: sky blue
+        [0.8,  0.7,  1.0,  1.0],    // face BC: light purple 
+        [1.0,  0.5,  0.5,  1.0],    // face CD: salmon
+        [1.0,  0.6,  0.0,  1.0],    // face DE: orange 
+        [0.7,  0.4,  0.10,  1.0],    // face EA: maroon
     ];
 
     let vertexColors = [];
@@ -439,14 +439,14 @@ function createOctaedro(gl,translation, rotationAxis){
 
 
     let faceColors = [
-        [1.0,  0.0,  0.0,  1.0],    //  Face EAD : red
-        [0.0, 1.0,  0.0,  1.0],    //  Face EAC: green
-        [0.0,  0.0,  1.0,  1.0],    // Face EDB: blue
-        [1.0,  1.0,  0.0,  1.0],    // Face EBC: yellow
-        [1.0,  0.0,  1.0,  1.0],    // Face FAD : purple
-        [0.0,  1.0,  1.0,  1.0],    // Face FAC: cyan
-        [0.5,  0.0,  0.0,  1.0],    // Face FDB: dark red
-        [0.0,  0.5,  0.0,  1.0],    // Face FBC: dark green
+        [0.20,  0.0,  0.0,  1.0],    //  Face EAD : red
+        [0.0, 0.20,  0.0,  1.0],    //  Face EAC: green
+        [0.0,  0.0,  0.20,  1.0],    // Face EDB: blue
+        [0.20, .20,  0.0,  1.0],    // Face EBC: yellow
+        [0.20,  0.0,  0.20,  1.0],    // Face FAD : purple
+        [0.0,  0.20,  0.20,  1.0],    // Face FAC: cyan
+        [0.75,  0.0,  0.0,  1.0],    // Face FDB: dark red
+        [0.0,  0.75,  0.0,  1.0],    // Face FBC: dark green
     ];
 
     let vertexColors = [];
