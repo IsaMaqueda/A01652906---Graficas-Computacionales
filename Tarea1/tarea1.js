@@ -1,5 +1,5 @@
 let mat4 = glMatrix.mat4;
-
+let up = true;
 let projectionMatrix;
 
 let shaderProgram, shaderVertexPositionAttribute, shaderVertexColorAttribute, shaderProjectionMatrixUniform, shaderModelViewMatrixUniform;
@@ -343,7 +343,8 @@ function createDodecaedro(gl,translation, rotationAxis){
         50, 51, 52,   50, 51, 53, 50, 53, 54, // Face 11
         55, 56, 58,   55, 57, 58, 55, 56, 59,  // Face 12
     ];
-    console.log(dodacaedroIndices.length);
+    //console.log(dodacaedroIndices.length);
+
     // gl.ELEMENT_ARRAY_BUFFER: Buffer used for element indices.
     // Uint16Array: Array of 16-bit unsigned integers.
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(dodacaedroIndices), gl.STATIC_DRAW);
@@ -354,7 +355,9 @@ function createDodecaedro(gl,translation, rotationAxis){
             primtype:gl.TRIANGLES, modelViewMatrix: mat4.create(), currentTime : Date.now()
         };
 
+    //creates the object
     mat4.translate(dodacaedro.modelViewMatrix, dodacaedro.modelViewMatrix, translation);
+    //changes the size of the object
     mat4.scale(dodacaedro.modelViewMatrix,dodacaedro.modelViewMatrix,[0.60,0.60,0.60]);
 
     dodacaedro.update = function()
@@ -397,7 +400,6 @@ function createOctaedro(gl,translation, rotationAxis){
         1, 0, 1, // 4 Punto A
         1, 0, -1, // 5 Punto C
 
-
         //Face EDB:
         0, 1.5, 0, //6 Punto E
         -1, 0, 1, // 7 Punto D
@@ -426,9 +428,7 @@ function createOctaedro(gl,translation, rotationAxis){
         //Face FBC:
         0, -1.5, 0, //21 Punto E
         -1, 0, -1, // 22 Punto B
-        1, 0, -1, // 23 Punto C
-
-       
+        1, 0, -1, // 23 Punto C       
     ]
 
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
@@ -436,6 +436,7 @@ function createOctaedro(gl,translation, rotationAxis){
     // Color data
     let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+
 
     let faceColors = [
         [1.0,  0.0,  0.0,  1.0],    //  Face EAD : red
@@ -450,6 +451,7 @@ function createOctaedro(gl,translation, rotationAxis){
 
     let vertexColors = [];
 
+    //puts the color in each vertice 
     faceColors.forEach(color =>{
         for (let j=0; j < 3; j++)
             vertexColors.push(...color);
@@ -477,6 +479,7 @@ function createOctaedro(gl,translation, rotationAxis){
     // Uint16Array: Array of 16-bit unsigned integers.
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(octaedroIndices), gl.STATIC_DRAW);
     
+    //creates the object
     let octaedro = {
             buffer: vertexBuffer, colorBuffer:colorBuffer, indices:octaedroIndexBuffer,
             vertSize:3, nVerts:24, colorSize:4, nColors: 24, nIndices:24,
@@ -486,6 +489,7 @@ function createOctaedro(gl,translation, rotationAxis){
     mat4.translate(octaedro.modelViewMatrix, octaedro.modelViewMatrix, translation);
     mat4.scale(octaedro.modelViewMatrix,octaedro.modelViewMatrix,[0.50,0.50,0.50]);
 
+
     octaedro.update = function()
     {
         let now = Date.now();
@@ -493,6 +497,7 @@ function createOctaedro(gl,translation, rotationAxis){
         this.currentTime = now;
         let fract = deltat / duration;
         let angle = Math.PI * 2 * fract;
+
     
         // Rotates a mat4 by the given angle
         // mat4 out the receiving matrix
@@ -500,8 +505,31 @@ function createOctaedro(gl,translation, rotationAxis){
         // Number rad the angle to rotate the matrix by
         // vec3 axis the axis to rotate around
         mat4.rotate(this.modelViewMatrix, this.modelViewMatrix, angle, rotationAxis);
+        console.log(this.modelViewMatrix);
 
-        //aqui se pone para que suba y baje
+
+        let y = this.modelViewMatrix[13];
+        console.log(y);
+
+
+        if(up){
+
+            //moves the octacaedro up by 0.05 in y
+            mat4.translate(octaedro.modelViewMatrix, octaedro.modelViewMatrix, [0,0.03,0]);
+
+            if (y >= 1.8)
+            {
+                up = false;
+            }
+        }
+        else{
+            //moves the octacaedro down by 0.05 in y
+            mat4.translate(octaedro.modelViewMatrix, octaedro.modelViewMatrix, [0,-0.03,0]);
+            if (y <= -1.8)
+            {
+                up = true;
+            }
+        }
     };
     
     return octaedro;
