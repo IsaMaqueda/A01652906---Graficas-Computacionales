@@ -38,6 +38,7 @@ let fragmentShaderSource =
     "    gl_FragColor = vColor;\n" +
     "}\n";
 
+ //initialized the canvas
 function initWebGL(canvas)
 {
     let gl = null;
@@ -61,6 +62,7 @@ function initWebGL(canvas)
     return gl;        
  }
 
+ //initialise the viewport
 function initViewport(gl, canvas)
 {
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -135,12 +137,16 @@ function createPiramid(gl,translation, rotationAxis){
 
     let vertexColors = [];
 
+    //For each of the first 5 vertex, add the 1st color, its the bottom face 
     for (let j = 0; j < 5; j++)
     {
         vertexColors.push(...faceColors[0]);
     }
 
+    //for each  of the other faces, push the color, it starts in j = 1, because the first color was added before
+    // there are 6 colors, 
     for (let j = 1; j <6 ; j++){
+        //each face has three vertex
         for (let i = 0; i < 3; i++)
         {
             vertexColors.push(...faceColors[j]);
@@ -154,7 +160,7 @@ function createPiramid(gl,translation, rotationAxis){
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, piramidIndexBuffer);
 
     let piramidIndices = [
-        0, 1, 4,      1, 2, 3,    1, 3, 4,   // Bottom   
+        0, 1, 4,      1, 2, 3,    1, 3, 4,   // Bottom: a pentagon consist of 3 triangles 
         5, 6, 7,    // Face AB
         8, 9, 10,   //Face BC
         11, 12, 13,  // Face CD
@@ -205,6 +211,8 @@ function createDodecaedro(gl,translation, rotationAxis){
     vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 
+    //used https://es.qwe.wiki/wiki/Regular_dodecahedron logic and formulas for the 20 vertex
+    //20 different vertex, each pentagon has 5 diferent vertex 
     let verts = [
 
         //Face 1 = 16,2,6,18,17
@@ -301,6 +309,7 @@ function createDodecaedro(gl,translation, rotationAxis){
     let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
+    //used more than 3 colors R B G 
     let faceColors = [
         [1.0,  0.0,  0.0,  1.0],    //  face 1: red
         [0.0, 1.0,  0.0,  1.0],    //  face 2: green
@@ -329,6 +338,7 @@ function createDodecaedro(gl,translation, rotationAxis){
     let dodacaedroIndexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, dodacaedroIndexBuffer);
 
+    //each pentagon is made of three triangles laced in one point
     let dodacaedroIndices = [
         0, 1, 2,      0, 1, 4,    0, 3, 4,   // Face 1
         5, 6, 7,      5, 6, 8,    5, 8, 9, // Face 2
@@ -388,6 +398,7 @@ function createOctaedro(gl,translation, rotationAxis){
     vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 
+    //the octagon has 6 diferent vert, 
     let verts = [
 
         //Face EAD :
@@ -463,6 +474,7 @@ function createOctaedro(gl,translation, rotationAxis){
     let octaedroIndexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, octaedroIndexBuffer);
 
+    //each face is made of one triangle 
     let octaedroIndices = [
         0, 1, 2,    // Face EAD  
         3, 4, 5,    // Face EAC
@@ -508,7 +520,10 @@ function createOctaedro(gl,translation, rotationAxis){
         console.log(this.modelViewMatrix);
 
 
+        //gets the y element of the modelViewMatrix
         let y = this.modelViewMatrix[13];
+
+
         console.log(y);
 
 
@@ -516,17 +531,20 @@ function createOctaedro(gl,translation, rotationAxis){
 
             //moves the octacaedro up by 0.05 in y
             mat4.translate(octaedro.modelViewMatrix, octaedro.modelViewMatrix, [0,0.03,0]);
-
+             //checks if it reached the top
             if (y >= 1.8)
             {
+                //changes the condition to false 
                 up = false;
             }
         }
         else{
             //moves the octacaedro down by 0.05 in y
             mat4.translate(octaedro.modelViewMatrix, octaedro.modelViewMatrix, [0,-0.03,0]);
+            //checks if it reached the bottom
             if (y <= -1.8)
             {
+                //changes the condition to true
                 up = true;
             }
         }
