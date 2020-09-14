@@ -84,6 +84,14 @@ function createPiramid(gl,translation, rotationAxis){
     vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 
+    // using https://mathworld.wolfram.com/RegularPentagon.html we get the points for the pentagon, confirm using geogebra 3d. 
+    //using https://math.stackexchange.com/questions/1990504/how-to-find-the-coordinates-of-the-vertices-of-a-pentagon-centered-at-the-origin get formulas
+    //using geogebra 3d get a pentagon on the plane xz. Then pick a point in y for the height
+    // I chose that the distance between point A and B is 1
+
+    //so point is the point, A = (0,0,.68)
+    // for b and E= .68cos(18°);.68sin(18°)) b and E are oposites, so only change x to negative in E
+    //for point C and D =  .68cos(−54°);.68sin(−54°)) C and D are oposites, son only change x to negative in D
     let verts = [
 
         //Bottom
@@ -125,7 +133,8 @@ function createPiramid(gl,translation, rotationAxis){
     // Color data
     let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-
+    
+    //using https://tug.org/pracjourn/2007-4/walden/color.pdf got diferent colors
     let faceColors = [
         [0.2,  0.7,  0.6,  1.0],    //  bottom: green
         [0.7, 0.8,  1,  1.0],    //  face AB: sky blue
@@ -213,6 +222,12 @@ function createDodecaedro(gl,translation, rotationAxis){
 
     //used https://es.qwe.wiki/wiki/Regular_dodecahedron logic and formulas for the 20 vertex
     //20 different vertex, each pentagon has 5 diferent vertex 
+    // for vertex 1-8 used the orange formula
+    // for vertex 9-12 use the green formula
+    // for vertex 13-16 use the blue fromula
+    // fto vertex 17-20 use the pink formula
+
+    //each face is composed of 5 diferent vertices, and forms 3 diferent triangles 
     let verts = [
 
         //Face 1 = 16,2,6,18,17
@@ -309,7 +324,7 @@ function createDodecaedro(gl,translation, rotationAxis){
     let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
-    //used more than 3 colors R B G 
+    //used more than 3 colors R B G  at first use the three primaries, then combine them, then reduce the value by half for the rest 
     let faceColors = [
         [1.0,  0.0,  0.0,  1.0],    //  face 1: red
         [0.0, 1.0,  0.0,  1.0],    //  face 2: green
@@ -398,7 +413,9 @@ function createOctaedro(gl,translation, rotationAxis){
     vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 
-    //the octagon has 6 diferent vert, 
+    //the octagon has 6 diferent vert,  a square and two points oposites in y
+    //for the square the object has to be in planes xz. the sides have a lenght of 1
+    //each piramid has 4 faces and only one point in y
     let verts = [
 
         //Face EAD :
@@ -448,7 +465,7 @@ function createOctaedro(gl,translation, rotationAxis){
     let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
-
+// used the color picker form the piramid
     let faceColors = [
         [0.20,  0.0,  0.0,  1.0],    //  Face EAD : red
         [0.0, 0.20,  0.0,  1.0],    //  Face EAC: green
@@ -526,7 +543,7 @@ function createOctaedro(gl,translation, rotationAxis){
 
         console.log(y);
 
-
+        //checks if the object is moving up
         if(up){
 
             //moves the octacaedro up by 0.05 in y
