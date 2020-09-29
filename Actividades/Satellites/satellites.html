@@ -1,0 +1,51 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Satellites</title>
+
+<link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css" />
+<link rel="stylesheet" href="../css/main.css" />
+<link rel="stylesheet" href="../css/threejsscene.css" />
+
+<script src="../../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="../../libs/jquery-ui/jquery-ui.js"></script>
+<script src="../../libs/three.js/three.js"></script>
+
+
+<script src="satellites.js"></script>
+
+<script type="text/javascript">
+       
+	$(document).ready(
+			function() {
+					
+				let canvas = document.getElementById("webglcanvas");
+
+				// create the scene
+				createScene(canvas);
+				
+		        // Run the run loop
+		        run();
+			}
+	);
+
+</script>
+
+</head>
+<body>
+
+	<div id="container">
+	    <canvas id="webglcanvas" width=800 height=600></canvas>
+		<div id="title">
+			Three.js Satellites
+		</div>
+	</div>
+	<div id="button">
+		<button onclick="addElement()">Add Element</button> 
+		<button onclick="addSatellite()">Add Satellite</button>
+		<button onclick="resetScene()">Reset</button>
+	</div>
+
+</body>
+
+</html>
