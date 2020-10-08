@@ -26,13 +26,15 @@ function animate()
     sun.rotation.y += (angle/4);
 
     //animate the sun pivot point so that all elements that have that as a pivot point rotate 
-    pivotSun.rotation.y += (angle/8);
+    pivotSun.rotation.y += (angle/4);
 
     //Animate all the elements in the scene
     celestial.forEach(element =>{
 
-        element.mesh.rotation.y += (angle/10);
-        element.pivot.rotation.y += (angle/20);
+        //the rotation of the planets
+        element.mesh.rotation.y += (angle);
+        //the rotation of the moons
+        element.pivot.rotation.y += (angle/2);
 
     });
 
@@ -72,7 +74,7 @@ function createScene(canvas)
 
     // Add  a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
-    camera.position.z = 50;
+    camera.position.z = 110;
     camera.position.y = 2;
     scene.add(camera);
 
@@ -248,15 +250,17 @@ function addEarth(){
     //the bump path
     let bumpUrl = "imagenes/earthbump1k.jpg";
 
-    let normalUrl = "";
+    //the  normal path
+    let normalUrl = "imagenes/2k_earth_normal_map.jpg";
 
 
     //creates the texture, the bump and the normal as three js objects
     let texture = new THREE.TextureLoader().load(textureUrl);
     let bump = new THREE.TextureLoader().load(bumpUrl);
+    let normal =  new THREE.TextureLoader().load(normalUrl);
 
     //creates the material by joining the texture, the bump and the normal
-    material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 0.04});
+    material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 0.04, normalMap: normal});
 
     //creates the geometry of the object
     let geometry = new THREE.SphereGeometry(1,32,32);
@@ -324,7 +328,7 @@ function addAsteroid(){
 
      for(let i = 0; i < 1000; i++){
 
-        // to find a point in a circle you need the radious and the angle, for both we create a random number from 14.5 to 17.5 and 0 to 360
+        // to find a point in a circle you need the radious and the angle, for both we create a random number from 17.5 to 19.5 and 0 to 360
         let r = Math.random() * (19.5 - 17.5) + 17.5;
         let theta = Math.random() * 360; 
 
@@ -372,14 +376,17 @@ function addJupiter(){
  
 
 
+     let theta = 0;
+     //according to math, to get a point in a circle you need the angle and the radious, the angle starts at 0 with the radious of 2.5
      for(let i = 0; i <= 12 ; i++)
-     {
-        let theta = Math.random() * 360; 
+     { 
         let x = 2.5 * Math.sin(theta);
         let z = 2.5 * Math.cos(theta);
 
+        //creates the moon
         addMoon(0.3, x, z, jupiter);
-        theta += 30;
+        //changes the angle using radians 
+        theta += .523;
 
      }
 }
@@ -429,13 +436,14 @@ function addSaturn(){
         let ring = new Celestial(geometry, material, saturn.pivot);
         //puts the ring at the center
         ring.addToScene(0,0,0);
-
+        //adds the obect to the array
         celestial.push(ring);
         
 
 
     }
 
+    
     addRingSaturn();
 
 }
@@ -483,7 +491,7 @@ function addUranus(){
         let ring = new Celestial(geometry, material, uranus.pivot);
         //puts the ring at the center
         ring.addToScene(0,0,0);
-
+        //adds the object to the array
         celestial.push(ring);
         
 
@@ -515,16 +523,18 @@ function addNeptune(){
      //pushes the object created to the array of elements
      celestial.push(neptune);
  
-
-
+//according to math, to get a point in a circle you need the angle and the radious, the angle starts at 0 with the radious of 3.5
+    let theta = 0;
      for(let i = 0; i <= 15 ; i++)
      {
-        let theta = Math.random() * 360; 
+    
         let x = 3.5 * Math.sin(theta);
         let z = 3.5 * Math.cos(theta);
 
+        //creates the moon
         addMoon(0.4, x, z, neptune);
-        theta += 30;
+        //modifies the angle using radians 
+        theta += 0.418;
 
      }
 }
@@ -554,22 +564,24 @@ function addPluto(){
          //pushes the object created to the array of elements
          celestial.push(pluto);
      
-    
+        //according to math, to get a point in a circle you need the angle and the radious, the angle starts at 0 with the radious of 2.5
          let theta = 0;
     
          for(let i = 0; i <= 3 ; i++)
          {
-            console.log(theta)
+            
             let x = 2 * Math.sin(theta);
             let z = 2 * Math.cos(theta);
-    
+            //adds the moon
             addMoon(0.1, x, z, pluto);
+            //modifies the angle suing radians 
             theta += 30;
     
          }
     
 }
 
+//adds the moon, recieves as parameter the size, the x and z position and the father pivot
 function addMoon(size, xPos, zPos, father){
     //the texture path
    let textureUrl = "imagenes/moonmap1k.jpg";

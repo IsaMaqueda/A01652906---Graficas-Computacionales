@@ -1,33 +1,27 @@
-# Graficas Computacionales Tarea 1
+# Graficas Computacionales Tarea 2
 ## Isabel Maqueda Rolon 
   ## A01652906
 
   ## Instrucciones 
-Utilizando WebGL dibuja lo siguiente:
+Utilizando ThreeJS dibuja lo siguiente:
 
-* Una pirámide pentagonal en 3D. La pirámide tiene que rotar al rededor del eje [0.1, 1.0, 0.2].
-* Un dodecaedro (Enlaces a un sitio externo.). Tiene que rotar al rededor de [-0.4, 1.0, 0.1].
-* Un octaedro (Enlaces a un sitio externo.). Tiene que rotar al rededor del eje [0, 1, 0], y tiene que estarse moviendo de arriba a abajo en la escena: se mueve hacia arriba hasta que llega al límite del canvas, y después se mueve hacia abajo hasta que llegue a la parte inferior del canvas, y se repite.
-
-## Pirámide Pentagonal
-
-Para la piramide pentagonal lo primero que se hace es el pentagono. Usango las siguientes paginas y formulas se saco las coordenadas del pentagono. Para hacerla piramide solo se elige un punto para hacer la altura. La pirámide esta hecha de 3 triangulos para el pentagono, y cada lado de la piramide es un triangulo más.
-### Recursos:
-* https://mathworld.wolfram.com/RegularPentagon.html
-*  https://math.stackexchange.com/questions/1990504/how-to-find-the-coordinates-of-the-vertices-of-a-pentagon-centered-at-the-origin
-* https://www.wolframalpha.com/ 
+* Crea 8 planetas (y plutón), con sus respectivas lunas, el sun, y el cinturón de asteroides. 
+* Los astros se pueden crear como esferas.
+* Los planetas y lunas tienen que tener su propia rotación.
+* Las lunas tienen que rotar al rededor de los planetas, y los planetas tienen que rotar al rededor del sol.
+* Dibuja las orbitas de cada planeta
+* Cada elemento tiene que tener su propio materia, con texturas, normales, y bump maps (de existir).
+* Investiga cómo funciona el orbit controller de three.js e integralo en la escena.
 
 
-## Dodecaedro
-Para el dodecaedro se saco la informacion de los vertices y puntos con sus coordenadas de la siguiente pagina: 
-https://es.qwe.wiki/wiki/Regular_dodecahedron 
+## Celestial Bodies 
+Se creo una clase llamada Celestial bodies, que recibe la geometria, el material y el pivot padre en el constructor, de ahi se crea un mesh y un pivot del objeto. La clase tiene una funcion llamada addToScene que recibe las coordenadas x,y,z del objeto y lo pone en la escena. 
 
-## Octaedro
-Para el octaedro se separo la figura, que separada son dos piramides opuestas en el plano de y. Para eso se saco un cuadrado que este sobre el plano xz con longitud de 1. Y luego se saco las dos puntas opuestas en y. Cada piramide esta hecha de 4 caras, dando el total de caras en 8. 
+## Orbitas
+Para las orbitas se uso un RingGeometry, que es parte de ThreeJs, en donde se se lio un color y el radio inicial y final para poder crear las orbitas. El centro usado fue el punto pivot del sol.
 
-## Librerias Usadas
-Usamos MAT4 y JQUERY
+## Lunas
+Para las lunas se creo una funcion que recive el tamaño, las posiciones x y z respecto al padre y el objeto padre. De ahi se crea el material y la geometria para poder mandar llamar a la clase de Celestial Bodies pasando como el objeto padre al planeta al que pertence. 
 
-## Recurso adicional
-
-Para ayudar con la escala de colores en RGB se uso la siguiente plantilla: https://tug.org/pracjourn/2007-4/walden/color.pdf
+## Asteroides
+Para los asteroides se saco un rango en donde pudieran estar los asteroides, usando la formula para sacar un punto en la circunferencia de un circulo.
