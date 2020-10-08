@@ -166,7 +166,7 @@ function cretaeOrbits()
 {
 
     //an array that has the internal and external radios of the orbits
-    let orbits = [{r1:6,r2:6.1},{r1:9,r2:9.1},{r1:12,r2:12.1},{r1:15,r2:15.1},{r1:23,r2:23.1},{r1:28,r2:28.1},{r1:34,r2:34.1},{r1:41,r2:41.1},{r1:49,r2:49.1}];
+    let orbits = [{r1:6,r2:6.1},{r1:9,r2:9.1},{r1:12,r2:12.1},{r1:15,r2:15.1},{r1:18.5,r2:18.55},{r1:23,r2:23.1},{r1:28,r2:28.1},{r1:34,r2:34.1},{r1:41,r2:41.1},{r1:49,r2:49.1}];
 
 
 
@@ -325,7 +325,7 @@ function addAsteroid(){
      for(let i = 0; i < 1000; i++){
 
         // to find a point in a circle you need the radious and the angle, for both we create a random number from 14.5 to 17.5 and 0 to 360
-        let r = Math.random() * (19 - 17.5) + 17.5;
+        let r = Math.random() * (19.5 - 17.5) + 17.5;
         let theta = Math.random() * 360; 
 
         //console.log(r,theta);
