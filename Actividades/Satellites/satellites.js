@@ -1,3 +1,5 @@
+//Not my code, used as a reference
+
 let renderer = null, 
 scene = null, 
 camera = null,
@@ -88,7 +90,7 @@ function addElement()
 {
 
     //The texture is loaded locally
-    let textureUrl = "../images/ash_uvgrid01.jpg";
+    let textureUrl = "../../images/ash_uvgrid01.jpg";
     let texture = new THREE.TextureLoader().load(textureUrl);
 
     //A nex material is created with the loaded texture
@@ -141,7 +143,7 @@ function addSatellite()
 {
 
     //The texture is loaded locally
-    let textureUrl = "../images/ash_uvgrid01.jpg";
+    let textureUrl = "../../images/ash_uvgrid01.jpg";
     let texture = new THREE.TextureLoader().load(textureUrl);
 
     //A nex material is created with the loaded texture

@@ -1,5 +1,3 @@
-<!--  Not my code, used as a reference-->
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -9,12 +7,14 @@
 <link rel="stylesheet" href="../css/main.css" />
 <link rel="stylesheet" href="../css/threejsscene.css" />
 
-<script src="../../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-<script src="../../libs/jquery-ui/jquery-ui.js"></script>
-<script src="../../libs/three.js/three.js"></script>
+<script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="../libs/jquery-ui/jquery-ui.js"></script>
+<script src="../libs/three.js/three.js"></script>
+<script src="../libs/three.js/controls/OrbitControls.js"></script>
 
 
-<script src="satellites.js"></script>
+
+<script src="tarea2.js"></script>
 
 <script type="text/javascript">
        
@@ -37,17 +37,12 @@
 <body>
 
 	<div id="container">
-	    <canvas id="webglcanvas" width=800 height=600></canvas>
+	    <canvas id="webglcanvas" width=1500 height=800></canvas>
 		<div id="title">
-			Three.js Satellites
+			Solar System by Isabel Maqueda Rolon A01652906
+		</div>
 		</div>
 	</div>
-	<div id="button">
-		<button onclick="addElement()">Add Element</button> 
-		<button onclick="addSatellite()">Add Satellite</button>
-		<button onclick="resetScene()">Reset</button>
-	</div>
-
 </body>
 
 </html>
